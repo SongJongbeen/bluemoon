@@ -22,6 +22,7 @@ async def on_ready():
     await bot.load_extension('cogs.ladder_game')
     await bot.load_extension('cogs.send_scheduled_message')
     await bot.load_extension('cogs.voice_control')
+    await bot.load_extension('cogs.read_tts')
 
 @bot.command()
 async def hello(ctx):

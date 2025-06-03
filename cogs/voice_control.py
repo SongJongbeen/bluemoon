@@ -5,7 +5,7 @@ from utils.voice_utils import (
 )
 
 VOICE_CHANNEL_ID = 1376827452164411507   # 감시/입장할 음성채널 ID
-TEXT_CHANNEL_ID = 1376827527330402396    # 알림을 보낼 텍스트채널 ID
+TEXT_CHANNEL_ID = 1379362879907561574    # 알림을 보낼 텍스트채널 ID
 
 class VoiceControlCog(commands.Cog):
     def __init__(self, bot):
