@@ -30,7 +30,8 @@ class TTSReaderCog(commands.Cog):
                 return
 
         # TTS 변환 및 재생
-        tts_text = f"{message.author.display_name} : {message.content}"
+        # tts_text = f"{message.author.display_name} : {message.content}"
+        tts_text = f"{message.content}"
         tts_path = text_to_speech_file(tts_text, model="tts-1", voice="alloy")
         audio_source = discord.FFmpegPCMAudio(tts_path)
 
