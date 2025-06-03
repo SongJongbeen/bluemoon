@@ -20,6 +20,7 @@ async def on_ready():
     await bot.load_extension('cogs.check_promotion')
     await bot.load_extension('cogs.manage_role')
     await bot.load_extension('cogs.ladder_game')
+    await bot.load_extension('cogs.send_scheduled_message')
 
 @bot.command()
 async def hello(ctx):
