@@ -24,6 +24,7 @@ async def on_ready():
     await bot.load_extension('cogs.voice_control')
     await bot.load_extension('cogs.read_tts')
     await bot.load_extension('cogs.play_music')
+    await bot.load_extension('cogs.get_deian')
 
 @bot.command()
 async def hello(ctx):

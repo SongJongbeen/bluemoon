@@ -1,6 +1,6 @@
 import asyncio
 from discord.ext import commands, tasks
-from utils.time_utils import is_target_time, is_every_hour, is_specific_hours
+from utils.time_utils import is_every_hour, is_specific_hours
 
 GUILD_ID = 1376827452164411503    # TEST SERVER
 CHANNEL_ID = 1376827527330402396
