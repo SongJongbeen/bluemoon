@@ -1,8 +1,10 @@
+import json
 from discord.ext import commands
 from utils.voice_utils import (
     join_voice_channel, leave_voice_channel,
     is_user_joined_channel, make_join_message
 )
+from utils.privacy_utils import is_privacy_allowed
 
 VOICE_CHANNEL_ID = 1376827452164411507   # 감시/입장할 음성채널 ID
 TEXT_CHANNEL_ID = 1379362879907561574    # 알림을 보낼 텍스트채널 ID
@@ -36,6 +38,10 @@ class VoiceControlCog(commands.Cog):
     async def on_voice_state_update(self, member, before, after):
         # 봇은 무시
         if member.bot:
+            return
+
+        # 개인정보 허용 여부 확인
+        if not is_privacy_allowed(member.display_name):
             return
 
         # 입장 알림
