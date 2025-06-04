@@ -60,6 +60,8 @@ def get_server_soup(
             }
         """)
 
+    print("overlay 제거 완료")
+
     # 서버 버튼 클릭
     try:
         server_button = driver.find_element(By.XPATH, f"//*[@id=\"app\"]/div/main/div/section/div[2]/section[3]/div[1]/button[{SERVER_IDX[server_name]}]")
@@ -68,6 +70,8 @@ def get_server_soup(
     except Exception as e:
         driver.quit()
         raise RuntimeError(f"서버 버튼 클릭 실패: {e}")
+
+    print("서버 버튼 클릭 완료")
 
     time.sleep(wait_sec)  # 데이터 렌더링 대기
 

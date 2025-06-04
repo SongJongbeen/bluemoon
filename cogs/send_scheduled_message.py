@@ -10,7 +10,7 @@ MESSAGE_SCHEDULE = [
     {
         "name": "결계",
         "role_id": BARRIER_ID,
-        "check_func": lambda: is_every_hour(minute=12),
+        "check_func": lambda: is_every_hour(minute=0),
         "message": "소환의 결계 2분전입니다."
     },
     {

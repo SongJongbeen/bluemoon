@@ -1,5 +1,6 @@
 import asyncio
 import re
+from datetime import datetime
 from discord.ext import commands, tasks
 from utils.selenium_utils import get_server_soup
 from utils.time_utils import is_every_half_hour
@@ -15,7 +16,7 @@ class GetAbyssHoleCog(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def get_abyss_hole(self):
-        if not is_every_half_hour():
+        if not is_every_half_hour(minutes=[21, 51]):    # 현재 검은구멍 리젠 시간
             return
 
         URL = "https://mobigg.kr/"
@@ -26,18 +27,29 @@ class GetAbyssHoleCog(commands.Cog):
         soup = get_server_soup(URL, SERVER)
         section = soup.find('section', class_='card report-list')
 
+        # with open("data/abyss_hole.html", "w", encoding="utf-8") as f:
+        #     f.write(soup.prettify())
+
         if section:
             display_none_div = section.find('div', style=lambda x: x and 'display: none' in x)
-            if display_none_div:
+            report_cards = section.find_all('div', class_='report-card auto-generated')
+            if display_none_div and not report_cards:
+                now = datetime.now()
+                print(f"{now.strftime('%Y-%m-%d %H:%M:%S')} 얼음협곡 심층 검은 구멍 출현 없음")
                 return
-            else:
-                await channel.send(f"{role.mention} 얼음협곡 심층 검은 구멍 출현")
-                for card in section.find_all('div', class_='report-card auto-generated'):
+            elif report_cards:
+                for card in report_cards:
                     card_text = card.get_text(strip=True)
                     match = re.search(r'(.+)남은 시간:(.+)(좋아요)', card_text)
                     if match:
                         remaining_time = match.group(2)
+                        if remaining_time == "만료":
+                            print("만료된 구멍")
+                            continue
+                        await channel.send(f"{role.mention} 얼음협곡 심층 검은 구멍 출현")
                         await channel.send(f"남은 시간: {remaining_time}")
+                        break
+                print("loop end")
 
         await asyncio.sleep(60)
 

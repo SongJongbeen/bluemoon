@@ -1,6 +1,6 @@
 import json
 
-def is_privacy_allowed(username, path="privacy.json"):
+def is_privacy_allowed(username, path="data/privacy.json"):
     """
     닉네임이 privacy.json에서 True면 허용, False면 거부
     """

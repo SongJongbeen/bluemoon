@@ -8,7 +8,7 @@ def is_every_hour(minute=0):
     now = datetime.now()
     return now.minute == minute
 
-def is_every_half_hour(minutes=[0, 42]):
+def is_every_half_hour(minutes=[0, 30]):
     now = datetime.now()
     return now.minute in minutes
 
