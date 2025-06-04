@@ -6,7 +6,7 @@ from discord.ext import commands, tasks
 from utils.selenium_utils import get_server_soup
 from utils.time_utils import is_every_half_hour
 
-with open('data/ids.json', 'r') as f:
+with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
 GUILD_ID = ids['bluemoon_server']['server_id']

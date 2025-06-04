@@ -3,7 +3,7 @@ import discord
 import json
 from utils.music_utils import get_youtube_audio_info, MusicQueue
 
-with open('data/ids.json', 'r') as f:
+with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
 VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']

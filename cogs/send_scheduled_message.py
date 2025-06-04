@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 from utils.time_utils import is_every_hour, is_specific_hours
 import json
 
-with open('data/ids.json', 'r') as f:
+with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
 GUILD_ID = ids['bluemoon_server']['server_id']

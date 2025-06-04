@@ -6,7 +6,7 @@ from utils.voice_utils import (
 )
 from utils.privacy_utils import is_privacy_allowed
 
-with open('data/ids.json', 'r') as f:
+with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
 VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']

@@ -3,7 +3,7 @@ import discord
 import json
 from utils.tts_utils import text_to_speech_file, remove_file
 
-with open('data/ids.json', 'r') as f:
+with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
 VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
