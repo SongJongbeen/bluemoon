@@ -1,9 +1,13 @@
 from discord.ext import commands
 import discord
+import json
 from utils.tts_utils import text_to_speech_file, remove_file
 
-VOICE_CHANNEL_ID = 1376827452164411507
-TEXT_CHANNEL_ID = 1379362879907561574
+with open('data/ids.json', 'r') as f:
+    ids = json.load(f)
+
+VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
+TEXT_CHANNEL_ID = ids['bluemoon_server']['tts_channel_id']
 
 class TTSReaderCog(commands.Cog):
     def __init__(self, bot):

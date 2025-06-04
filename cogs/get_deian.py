@@ -1,13 +1,17 @@
 import asyncio
 import re
+import json
 from datetime import datetime
 from discord.ext import commands, tasks
 from utils.selenium_utils import get_server_soup
 from utils.time_utils import is_every_half_hour
 
-GUILD_ID = 1376827452164411503    # TEST SERVER
-CHANNEL_ID = 1376827527330402396
-ABYSS_HOLE_ID = 1376877152418398299
+with open('data/ids.json', 'r') as f:
+    ids = json.load(f)
+
+GUILD_ID = ids['bluemoon_server']['server_id']
+CHANNEL_ID = ids['bluemoon_server']['bot_channel_id']
+ABYSS_HOLE_ID = ids['bluemoon_server']['abyss_hole_id']
 
 class GetAbyssHoleCog(commands.Cog):
     def __init__(self, bot):

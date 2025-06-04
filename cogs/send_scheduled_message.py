@@ -1,11 +1,16 @@
 import asyncio
 from discord.ext import commands, tasks
 from utils.time_utils import is_every_hour, is_specific_hours
+import json
 
-GUILD_ID = 1376827452164411503    # TEST SERVER
-CHANNEL_ID = 1376827527330402396
-BARRIER_ID = 1376872065969160192
-FIELD_BOSS_ID = 1376877063549485156
+with open('data/ids.json', 'r') as f:
+    ids = json.load(f)
+
+GUILD_ID = ids['bluemoon_server']['server_id']
+CHANNEL_ID = ids['bluemoon_server']['bot_channel_id']
+BARRIER_ID = ids['bluemoon_server']['barrier_id']
+FIELD_BOSS_ID = ids['bluemoon_server']['boss_id']
+
 MESSAGE_SCHEDULE = [
     {
         "name": "결계",

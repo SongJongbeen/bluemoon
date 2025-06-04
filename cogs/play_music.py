@@ -1,8 +1,12 @@
 from discord.ext import commands
 import discord
+import json
 from utils.music_utils import get_youtube_audio_info, MusicQueue
 
-VOICE_CHANNEL_ID = 1376827452164411507
+with open('data/ids.json', 'r') as f:
+    ids = json.load(f)
+
+VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
 
 class PlayMusicCog(commands.Cog):
     def __init__(self, bot):

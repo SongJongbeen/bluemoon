@@ -6,8 +6,11 @@ from utils.voice_utils import (
 )
 from utils.privacy_utils import is_privacy_allowed
 
-VOICE_CHANNEL_ID = 1376827452164411507   # 감시/입장할 음성채널 ID
-TEXT_CHANNEL_ID = 1379362879907561574    # 알림을 보낼 텍스트채널 ID
+with open('data/ids.json', 'r') as f:
+    ids = json.load(f)
+
+VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
+TEXT_CHANNEL_ID = ids['bluemoon_server']['tts_channel_id']
 
 class VoiceControlCog(commands.Cog):
     def __init__(self, bot):
