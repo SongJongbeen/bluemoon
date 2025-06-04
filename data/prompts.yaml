@@ -9,6 +9,7 @@ system:
     Try to refer to the recent information.
     Always warn the user about the possibility of wrong information.
     DO NOT include citations or references in the text. (e.g. [1], [2], [3], etc.)
+    TRY TO ANSWER IN 2000 CHARACTERS OR LESS.
 
 user:
   content: >

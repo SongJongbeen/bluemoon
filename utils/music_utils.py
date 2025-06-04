@@ -1,9 +1,10 @@
 import yt_dlp
 import random
+import asyncio
 
-def get_youtube_audio_info(query):
+async def get_youtube_audio_info(query):
     """
-    유튜브 링크 또는 검색어(query)에서 오디오 스트림 URL과 곡 제목 추출
+    유튜브 링크 또는 검색어(query)에서 오디오 스트림 URL과 곡 제목 추출 (비동기)
     """
     ydl_opts = {
         'format': 'bestaudio/best',
@@ -13,15 +14,17 @@ def get_youtube_audio_info(query):
         'default_search': 'auto',
         'skip_download': True,
     }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(query, download=False)
-        if 'entries' in info and info['entries']:
-            info = info['entries'][0]
-        return {
-            'url': info['url'],
-            'title': info.get('title', 'Unknown Title'),
-            'duration': info.get('duration', 0)
-        }
+    def sync_extract():
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(query, download=False)
+            if 'entries' in info and info['entries']:
+                info = info['entries'][0]
+            return {
+                'url': info['url'],
+                'title': info.get('title', 'Unknown Title'),
+                'duration': info.get('duration', 0)
+            }
+    return await asyncio.to_thread(sync_extract)
 
 class MusicQueue:
     def __init__(self):

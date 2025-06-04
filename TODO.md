@@ -1,7 +1,5 @@
 # To Do
 [*] 유튜브 노래 재생
-[x] 몇분동안 반응없이 특정 채널에 오래 있으면 자동으로 잠수채널로 이동시키는 기능
-[x] 모바출 기능 (어비스, 레이드, 심층) 버튼 만들어두고 인원이 다 모이면 태그 달아주는 기능
 
 # 시간 반복
 [*] (가능하면) 필드보스/결계 알람
@@ -19,3 +17,27 @@
 [*] 오늘의 운세
 [*] (퍼플렉시티 써서) 마비노기 모바일 QnA 챗봇? -> 가끔 잘못된 정보를 줄 수 있음
 [*] 사다리타기
+
+---
+노래가 너무 길어서 못 재생할때 메세지 전송
+
+Traceback (most recent call last):
+  File "C:\Users\20200\miniconda3\envs\bluemoon\Lib\site-packages\discord\ext\commands\core.py", line 235, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\cursor\bluemoon\cogs\play_music.py", line 63, in play
+    await ctx.send(f"'{info['title']}'을(를) 큐에 추가했습니다.")
+                       ~~~~^^^^^^^^^
+TypeError: 'coroutine' object is not subscriptable
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\20200\miniconda3\envs\bluemoon\Lib\site-packages\discord\ext\commands\bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\20200\miniconda3\envs\bluemoon\Lib\site-packages\discord\ext\commands\core.py", line 1029, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\20200\miniconda3\envs\bluemoon\Lib\site-packages\discord\ext\commands\core.py", line 244, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: TypeError: 'coroutine' object is not subscriptable

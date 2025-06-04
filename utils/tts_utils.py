@@ -1,35 +1,59 @@
 import os
-from dotenv import load_dotenv
-from openai import OpenAI
 from pathlib import Path
 import uuid
+from openai import OpenAI
+from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_openai_client():
-    api_key = os.getenv("OPENAI_API_KEY")
-    return OpenAI(api_key=api_key)
+VOICES = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer']
+DEFAULT_VOICE = 'shimmer'
 
-def text_to_speech_file(text, filename=None, model="tts-1", voice="alloy"):
-    """
-    OpenAI TTS API로 텍스트를 mp3로 변환하고 파일 경로 반환
-    """
-    client = get_openai_client()
-    if filename is None:
-        filename = f"tts_{uuid.uuid4().hex}.mp3"
-    speech_file_path = Path(filename)
-    response = client.audio.speech.create(
-        model=model,
-        voice=voice,
-        input=text
-    )
-    with open(speech_file_path, 'wb') as file:
-        for chunk in response.iter_bytes():
-            file.write(chunk)
-    return str(speech_file_path)
+class TTSManager:
+    def __init__(self):
+        self.voice = DEFAULT_VOICE
+
+    def set_voice(self, voice):
+        if voice in VOICES:
+            self.voice = voice
+            return True
+        return False
+
+    def get_voice(self):
+        return self.voice
+
+    def get_openai_client(self):
+        api_key = os.getenv("OPENAI_API_KEY")
+        return OpenAI(api_key=api_key)
+
+    def text_to_speech_file(self, text, filename=None, model="tts-1"):
+        client = self.get_openai_client()
+        if filename is None:
+            filename = f"tts_{uuid.uuid4().hex}.mp3"
+        speech_file_path = Path(filename)
+        response = client.audio.speech.create(
+            model=model,
+            voice=self.voice,
+            input=text
+        )
+        with open(speech_file_path, 'wb') as file:
+            for chunk in response.iter_bytes():
+                file.write(chunk)
+        return str(speech_file_path)
+
+tts_manager = TTSManager()
+
+def text_to_speech_file(text, filename=None, model="tts-1"):
+    return tts_manager.text_to_speech_file(text, filename, model)
 
 def remove_file(filepath):
     try:
         os.remove(filepath)
     except Exception:
         pass
+
+def set_voice(voice):
+    return tts_manager.set_voice(voice)
+
+def get_voice():
+    return tts_manager.get_voice()

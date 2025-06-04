@@ -6,10 +6,10 @@ import json
 with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
-GUILD_ID = ids['bluemoon_server']['server_id']
-CHANNEL_ID = ids['bluemoon_server']['bot_channel_id']
-BARRIER_ID = ids['bluemoon_server']['barrier_id']
-FIELD_BOSS_ID = ids['bluemoon_server']['boss_id']
+GUILD_ID = int(ids['bluemoon_server']['server_id'])
+CHANNEL_ID = int(ids['bluemoon_server']['bot_channel_id'])
+BARRIER_ID = int(ids['bluemoon_server']['barrier_id'])
+FIELD_BOSS_ID = int(ids['bluemoon_server']['boss_id'])
 
 MESSAGE_SCHEDULE = [
     {

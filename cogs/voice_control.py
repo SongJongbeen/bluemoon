@@ -9,8 +9,8 @@ from utils.privacy_utils import is_privacy_allowed
 with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
-VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
-TEXT_CHANNEL_ID = ids['bluemoon_server']['tts_channel_id']
+VOICE_CHANNEL_ID = int(ids['bluemoon_server']['voice_channel_id'])
+TEXT_CHANNEL_ID = int(ids['bluemoon_server']['tts_channel_id'])
 
 class VoiceControlCog(commands.Cog):
     def __init__(self, bot):

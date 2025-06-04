@@ -6,7 +6,7 @@ from utils.music_utils import get_youtube_audio_info, MusicQueue
 with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
-VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
+VOICE_CHANNEL_ID = int(ids['bluemoon_server']['voice_channel_id'])
 
 class PlayMusicCog(commands.Cog):
     def __init__(self, bot):
@@ -58,7 +58,7 @@ class PlayMusicCog(commands.Cog):
 
     @commands.command(name="재생")
     async def play(self, ctx, *, query: str):
-        info = get_youtube_audio_info(query)
+        info = await get_youtube_audio_info(query)
         self.queue.add(info)
         await ctx.send(f"'{info['title']}'을(를) 큐에 추가했습니다.")
         if not self.is_playing:
@@ -75,7 +75,7 @@ class PlayMusicCog(commands.Cog):
         else:
             await ctx.send("재생 중인 곡이 없습니다.")
 
-    @commands.command(name="정지")
+    @commands.command(name="비우기")
     async def stop(self, ctx):
         self.queue.clear()
         voice_client = ctx.guild.voice_client
@@ -95,7 +95,7 @@ class PlayMusicCog(commands.Cog):
         else:
             await ctx.send("일시정지할 음악이 없습니다.")
 
-    @commands.command(name="다시재생")
+    @commands.command(name="재개")
     async def resume(self, ctx):
         voice_client = ctx.guild.voice_client
         if voice_client and self.is_paused:

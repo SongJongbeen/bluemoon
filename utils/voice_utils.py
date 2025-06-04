@@ -17,6 +17,8 @@ async def join_voice_channel(bot, guild, channel_id):
     """
     channel = guild.get_channel(channel_id)
     if channel is None or not hasattr(channel, "connect"):
+        if channel is None:
+            print("channel is None")
         return False  # 음성채널이 아님 또는 존재하지 않음
 
     # 이미 연결되어 있으면 이동, 아니면 새로 연결

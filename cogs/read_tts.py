@@ -1,13 +1,12 @@
 from discord.ext import commands
 import discord
 import json
-from utils.tts_utils import text_to_speech_file, remove_file
+from utils.tts_utils import text_to_speech_file, remove_file, set_voice, get_voice
 
 with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
-
-VOICE_CHANNEL_ID = ids['bluemoon_server']['voice_channel_id']
-TEXT_CHANNEL_ID = ids['bluemoon_server']['tts_channel_id']
+VOICE_CHANNEL_ID = int(ids['bluemoon_server']['voice_channel_id'])
+TEXT_CHANNEL_ID = int(ids['bluemoon_server']['tts_channel_id'])
 
 class TTSReaderCog(commands.Cog):
     def __init__(self, bot):
@@ -15,8 +14,8 @@ class TTSReaderCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        # 봇 메시지, DM, 다른 채널 무시
-        if message.author.bot or message.guild is None:
+        # DM, 다른 채널 무시
+        if message.guild is None:
             return
         if message.channel.id != TEXT_CHANNEL_ID:
             return
@@ -30,21 +29,27 @@ class TTSReaderCog(commands.Cog):
             try:
                 voice_client = await voice_channel.connect()
             except discord.ClientException:
-                # 이미 다른 채널에 연결 중일 수 있음
                 return
 
         # TTS 변환 및 재생
-        # tts_text = f"{message.author.display_name} : {message.content}"
-        tts_text = f"{message.content}"
-        tts_path = text_to_speech_file(tts_text, model="tts-1", voice="alloy")
+        tts_text = message.content
+        tts_path = text_to_speech_file(tts_text, model="tts-1")
         audio_source = discord.FFmpegPCMAudio(tts_path)
-
-        # 재생 중이면 무시(간단 구현, 큐잉 필요시 별도 구현)
         if not voice_client.is_playing():
             voice_client.play(audio_source, after=lambda e: remove_file(tts_path))
         else:
-            # 이미 재생 중이면 파일만 삭제
             remove_file(tts_path)
+
+    @commands.command(name="목소리")
+    async def set_voice_cmd(self, ctx, voice: str):
+        if set_voice(voice):
+            await ctx.send(f"목소리가 {voice}로 변경되었습니다.")
+        else:
+            await ctx.send(f"지원하는 목소리가 아닙니다. 가능한 목소리: alloy, echo, fable, onyx, nova, shimmer")
+
+    @commands.command(name="현재목소리")
+    async def get_voice_cmd(self, ctx):
+        await ctx.send(f"현재 목소리: {get_voice()}")
 
 async def setup(bot):
     await bot.add_cog(TTSReaderCog(bot))

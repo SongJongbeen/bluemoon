@@ -9,9 +9,9 @@ from utils.time_utils import is_every_half_hour
 with open('data/ids.json', 'r', encoding='utf-8') as f:
     ids = json.load(f)
 
-GUILD_ID = ids['bluemoon_server']['server_id']
-CHANNEL_ID = ids['bluemoon_server']['bot_channel_id']
-ABYSS_HOLE_ID = ids['bluemoon_server']['abyss_hole_id']
+GUILD_ID = int(ids['bluemoon_server']['server_id'])
+CHANNEL_ID = int(ids['bluemoon_server']['bot_channel_id'])
+ABYSS_HOLE_ID = int(ids['bluemoon_server']['abyss_hole_id'])
 
 class GetAbyssHoleCog(commands.Cog):
     def __init__(self, bot):
@@ -20,7 +20,7 @@ class GetAbyssHoleCog(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def get_abyss_hole(self):
-        if not is_every_half_hour(minutes=[21, 51]):    # 현재 검은구멍 리젠 시간
+        if not is_every_half_hour(minutes=[20, 50]):    # 현재 검은구멍 리젠 시간
             return
 
         URL = "https://mobigg.kr/"
@@ -46,7 +46,11 @@ class GetAbyssHoleCog(commands.Cog):
                     card_text = card.get_text(strip=True)
                     match = re.search(r'(.+)남은 시간:(.+)(좋아요)', card_text)
                     if match:
+                        location = match.group(1)
                         remaining_time = match.group(2)
+                        if "여신" in location:
+                            print("여신의 뜰")
+                            continue
                         if remaining_time == "만료":
                             print("만료된 구멍")
                             continue
