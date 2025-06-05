@@ -15,8 +15,11 @@ pm2 start main.py --name bluemoon-main --interpreter /home/ec2-user/miniconda3/e
 pm2 save
 pm2 startup
 
-# 매일 새벽 4시에 재시작하도록 크론잡 설정
-pm2 restart bluemoon-main --cron "0 4 * * *"
+# 서비스 스케줄링 설정
+# 매일 새벽 1시에 중지
+pm2 stop bluemoon-main --cron "0 1 * * *"
+# 매일 아침 8시에 시작
+pm2 restart bluemoon-main --cron "0 8 * * *"
 
 # tmux 세션에 접속
 tmux attach -t bluemoon

@@ -8,3 +8,4 @@ yt-dlp==2025.5.22
 beautifulsoup4==4.13.4
 selenium==4.33.0
 webdriver-manager==4.0.2
+pytz==2025.2

@@ -31,6 +31,11 @@ class RoleManager(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    async def send_role_message(self, channel):
+        """역할 버튼 메시지를 전송하는 함수"""
+        view = RoleButtonView()
+        return await channel.send("아래 버튼을 눌러 필요한/제거할 역할을 클릭하세요!", view=view)
+
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def togglerole(self, ctx, member: discord.Member, role_name: str):
@@ -45,8 +50,7 @@ class RoleManager(commands.Cog):
     @commands.command(name='역할')
     async def rolebutton(self, ctx):
         """버튼을 눌러 '테스트' 역할을 토글할 수 있는 메시지 전송"""
-        view = RoleButtonView()
-        await ctx.send("아래 버튼을 눌러 필요한/제거할 역할을 클릭하세요!", view=view)
+        await self.send_role_message(ctx.channel)
 
 async def setup(bot):
     await bot.add_cog(RoleManager(bot))
