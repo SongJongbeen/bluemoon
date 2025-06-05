@@ -48,9 +48,18 @@ def text_to_speech_file(text, filename=None, model="tts-1"):
 
 def remove_file(filepath):
     try:
-        os.remove(filepath)
-    except Exception:
-        pass
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            return True
+        else:
+            print(f"파일이 존재하지 않음: {filepath}")
+            return False
+    except PermissionError:
+        print(f"파일 삭제 권한 없음: {filepath}")
+        return False
+    except OSError as e:
+        print(f"파일 삭제 중 오류 발생: {filepath} - {str(e)}")
+        return False
 
 def set_voice(voice):
     return tts_manager.set_voice(voice)

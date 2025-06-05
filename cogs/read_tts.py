@@ -35,8 +35,14 @@ class TTSReaderCog(commands.Cog):
         tts_text = message.content
         tts_path = text_to_speech_file(tts_text, model="tts-1")
         audio_source = discord.FFmpegPCMAudio(tts_path)
+        
+        def after_playing(error):
+            if error:
+                print(f"재생 중 오류 발생: {error}")
+            remove_file(tts_path)
+        
         if not voice_client.is_playing():
-            voice_client.play(audio_source, after=lambda e: remove_file(tts_path))
+            voice_client.play(audio_source, after=after_playing)
         else:
             remove_file(tts_path)
 
