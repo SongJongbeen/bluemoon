@@ -1,6 +1,6 @@
 import asyncio
 from discord.ext import commands, tasks
-from utils.time_utils import is_every_hour, is_specific_hours
+from utils.time_utils import is_every_hour, is_specific_hours, is_operation_hours
 import json
 
 with open('data/ids.json', 'r', encoding='utf-8') as f:
@@ -33,6 +33,9 @@ class ScheduledMessageCog(commands.Cog):
 
     @tasks.loop(seconds=30)
     async def scheduled_messages(self):
+        if not is_operation_hours():  # 운영 시간이 아니면 메시지를 보내지 않음
+            return
+            
         guild = self.bot.get_guild(GUILD_ID)
         channel = self.bot.get_channel(CHANNEL_ID)
         if not channel:

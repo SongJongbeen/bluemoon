@@ -18,3 +18,8 @@ def is_every_half_hour(minutes=[0, 30]):
 def is_specific_hours(hours, minute=0):
     now = datetime.now(KST)
     return now.hour in hours and now.minute == minute
+
+def is_operation_hours() -> bool:
+    now = datetime.now(KST)
+    # 1시부터 8시까지는 False 반환
+    return not (1 <= now.hour < 8)
